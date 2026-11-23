@@ -1,5 +1,5 @@
 # Dhanraj Vedanth Raghunathan
 
-Engineering portfolio with interactive architecture case studies and a downloadable resume.
+[Engineering portfolio](https://dhanrajvedanth.github.io/)
 
-[Visit the portfolio](https://dhanrajvedanth.github.io/)
+The site includes eight engineering case studies with illustrative diagrams. The public résumé is available as [a PDF](resume.pdf) and [LaTeX source](resume.tex).
