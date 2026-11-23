@@ -83,3 +83,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {outline-color: var(-
   .case-category {display: none}
   .work-heading a {font-size: 13px}
 }
+
+.technical-details {
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--stroke);
+}
+.technical-details h4 {margin: 0 0 8px; font-size: 1rem}
+.technical-details ol {margin: 0 0 16px; padding-left: 1.25rem; color: var(--muted)}
+.technical-details p {margin-bottom: 0}
+.edge-label {fill: #c8d6e3; font: 13px system-ui, sans-serif; pointer-events: none}
