@@ -1,0 +1,85 @@
+% Public resume
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.69in,top=0.59in,bottom=0.59in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,enumitem,titlesec,xcolor,hyperref,tabularx,needspace}
+\definecolor{accent}{HTML}{214A70}
+\definecolor{muted}{HTML}{576573}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdfauthor={Dhanraj Vedanth Raghunathan},pdftitle={Dhanraj Vedanth Raghunathan - Principal Engineer - Distributed Systems and AI Agent Platforms}}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
+\setlist[itemize]{leftmargin=*,label={\textbullet},topsep=2.5pt,itemsep=4pt,parsep=0pt,partopsep=0pt}
+\titleformat{\section}{\color{accent}\bfseries\fontsize{10.5}{12}\selectfont}{}{0pt}{}[\vspace{-3pt}\color{accent!40}\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\newcommand{\job}[3]{\begin{tabularx}{\linewidth}{@{}Xr@{}}\textbf{#1}\enspace\textcolor{muted}{#2}&\textcolor{muted}{#3}\end{tabularx}}
+\newcommand{\role}[2]{\needspace{4\baselineskip}\vspace{3pt}\begin{tabularx}{\linewidth}{@{}Xr@{}}{\color{accent}\bfseries #1}&\textcolor{muted}{#2}\end{tabularx}\vspace{-3pt}}
+\begin{document}
+\begin{center}
+{\fontsize{19.5}{22}\selectfont\bfseries Dhanraj Vedanth Raghunathan}\\[3pt]
+919-345-4552\enspace$\vert$\enspace\href{https://linkedin.com/in/dhanrajraghunathan}{linkedin.com/in/dhanrajraghunathan}\\[2pt]
+\href{https://github.com/DhanrajVedanth}{github.com/DhanrajVedanth}\enspace$\vert$\enspace\href{https://dhanrajvedanth.github.io/}{dhanrajvedanth.github.io}
+\end{center}
+\vspace{-5pt}
+\begin{center}\textbf{PRINCIPAL ENGINEER}\enspace\textcolor{accent}{$\vert$}\enspace DISTRIBUTED SYSTEMS \& AI AGENT PLATFORMS\end{center}
+\vspace{-7pt}
+
+\section{Technical Expertise}
+\textbf{Cloud \& backend:} Go, Python, AWS (EKS, Lambda, Step Functions, SQS, DynamoDB, CDK), GCP (GKE, Pub/Sub, Vertex AI), Kubernetes, event-driven systems, REST/GraphQL\\[2pt]
+\textbf{AI \& reliability:} Claude Agent SDK, Google ADK, MCP, multi-agent orchestration, code mode, RAG, evaluation/guardrails, Langfuse, OpenTelemetry, Datadog, CI/CD
+
+\section{Professional Experience}
+\job{Palo Alto Networks}{}{San Jose, CA \textbar\ Mar 2022--Present}
+
+\role{Principal Engineer}{Apr 2025--Present}
+\begin{itemize}
+\item \textbf{Cloud billing:} Led the redesign of cloud usage metering and credit accounting. Designed an incremental migration that preserved billing continuity and gave engineers a way to recover from failed processing.
+\item \textbf{Agent platform:} Originated and led development of a shared Python platform for AI agents, giving teams reusable tools and agent definitions that could move between runtimes.
+\item \textbf{Support automation:} Architected a production AI assistant that gathers evidence for support engineers. Led work on read-only tooling, execution safeguards, and evaluations for model regressions.
+\item \textbf{Cloud cost analysis:} Architected a customer-facing assistant for analyzing cloud usage and spend, with financial calculations performed by software and explained in plain language.
+\item \textbf{Incident response:} Built an engineering console for investigating incidents and reviewing service health. Added a way for engineers to turn incident findings into reusable guidance.
+\item \textbf{Release reliability:} Designed and prototyped an AI-assisted regression testing workflow with isolated test execution and human release review.
+\item \textbf{Operational APIs:} Built a service that gave engineers and automation controlled, auditable access to cloud operational data.
+\item \textbf{Technical leadership:} Led engineers through design, integration, code review, and delivery of cloud networking and infrastructure upgrades.
+\end{itemize}
+
+\clearpage
+{\small\color{muted}\bfseries PALO ALTO NETWORKS --- CONTINUED}\par\vspace{5pt}
+\role{Senior Staff Software Engineer}{Sep 2023--Apr 2025}
+\begin{itemize}
+\item \textbf{Cloud lifecycle:} Led provisioning and lifecycle improvements for managed cloud firewalls, including safer rolling upgrades and recovery from failed changes.
+\item \textbf{Cloud networking:} Designed egress networking capabilities and integrated metering for their usage.
+\item \textbf{IPv6 and dual stack:} Led orchestration work to add dual-stack networking and extend support to existing cloud environments.
+\item \textbf{Marketplace billing:} Extended cloud billing for paid product features and built recovery tooling for customer workloads.
+\end{itemize}
+
+\role{Staff Software Engineer}{Mar 2022--Sep 2023}
+\begin{itemize}
+\item \textbf{Tiered billing:} Redesigned the AWS Marketplace usage aggregator to support tiered pricing, credits, and overages.
+\item \textbf{Observability:} Built alerting, log publishing, and operational dashboards for a managed cloud service.
+\item \textbf{Cloud metering:} Built usage metering and subscription billing capabilities for a managed cloud service.
+\end{itemize}
+
+
+\section{Earlier Experience}
+\job{Apple}{\textbar\ Tools and Automation Engineer II}{Jul 2021--Mar 2022}
+\begin{itemize}
+\item Automated Bluetooth LE advertisement/power-state testing, reducing manual work by about \textbf{7 hours per chipset}; published performance data to Splunk.
+\end{itemize}
+\job{Meta}{\textbar\ Network Automation Engineer Intern}{May--Aug 2020}
+\begin{itemize}
+\item Automated roughly \textbf{80\%} of network break-fix steps, saving \textbf{1+ hour per ticket}; built asynchronous workflow modules that cut database hits by \textbf{30\%}.
+\end{itemize}
+\job{Tata Communications}{\textbar\ Network Automation Engineer}{Jun 2018--Jun 2019}
+\begin{itemize}
+\item Built Python/Ansible automation for multi-PoP Looking Glass and SD-WAN onboarding, including concurrent device polling and reusable network integrations.
+\end{itemize}
+
+\section{Education}
+\begin{tabularx}{\linewidth}{@{}Xr@{}}
+\textbf{Westcliff University} --- MBA & \textcolor{muted}{In progress}\\[2pt]
+\textbf{North Carolina State University} --- M.S. Computer Networking (3.84/4.0) & \textcolor{muted}{2021}\\[2pt]
+\textbf{Anna University} --- B.E. Electronics \& Communication Engineering & \textcolor{muted}{2018}
+\end{tabularx}
+\end{document}

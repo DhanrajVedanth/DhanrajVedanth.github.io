@@ -7,3 +7,79 @@ button.btn,a.btn{border-radius:10px;display:inline-flex;align-items:center;gap:1
 @media(max-width:970px){.hero-inner{grid-template-columns:1fr}.hero{padding:70px 0}.hero h1{max-width:800px}.hero-visual{max-width:600px;width:100%;height:425px}.vis-stack{height:300px}.section{padding:75px 0}.detail-two{grid-template-columns:1fr}.nav-right{gap:17px}.nav-link{font-size:10px}.hero-visual{margin-inline:auto}.diagram-board{height:415px}}
 @media(max-width:700px){.shell{width:min(calc(100% - 34px),var(--max))}.nav{height:66px}.mark span:last-child{font-size:13px}.nav-mobile-toggle{display:block}.nav-right{display:none;position:absolute;top:66px;left:0;right:0;padding:24px;background:#101b2a;border-bottom:1px solid var(--stroke);flex-direction:column;align-items:stretch;gap:20px}.nav-right.open{display:flex}.nav-right .nav-link{font-size:13px}.hero{padding:64px 0 50px}.hero h1{font-size:clamp(3.25rem,12vw,5rem)}.hero-intro{font-size:15px}.hero-visual{height:398px;padding:19px}.vis-stack{height:278px}.vis-card{max-width:300px;padding:11px 12px}.vis-connector{height:24px}.facts-row{grid-template-columns:1fr}.fact{padding:17px 0;border-right:0;border-bottom:1px solid var(--stroke)}.fact:last-child{border:0}.section-header{display:block}.section-header h2{margin-bottom:15px}.case-grid,.approach-grid,.decision-grid,.archive-grid{grid-template-columns:1fr}.case-card{min-height:275px;padding:23px}.case-card h3{margin-top:28px}.section{padding:64px 0}.about-callout{display:block;padding:25px}.about-callout .btn{margin-top:20px}.foot-inner{display:block}.foot-links{margin-top:24px}.page-hero{padding:44px 0 38px}.page-hero h1{font-size:clamp(2.8rem,11vw,4.6rem)}.detail-wrap{padding-top:32px}.detail-card{padding:23px}.section-section{padding-top:56px}.diagram-nav{align-items:start;flex-direction:column;padding:12px}.diagram-tabs{width:100%}.tab{padding:7px 9px;font-size:10px}.diagram-info{padding:15px}.diagram-board{height:320px}.diagram-footer{grid-template-columns:1fr}.node-inspector{border-right:0;border-bottom:1px solid var(--stroke)}.walk-panel,.node-inspector{padding:18px}.diagram-hint{line-height:1.8}.tradeoff{grid-template-columns:1fr;gap:10px}.caution{display:block}.case-next{align-items:start;flex-direction:column}.timeline-item{grid-template-columns:1fr;gap:8px}.archive-grid{margin-bottom:45px}.search{width:100%}.filters{width:100%}.filter{padding:9px}.nav-resume{display:block;text-align:center}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Reading pages use a quiet paper palette; the interactive canvas retains its own contrast. */
+:root {
+  --ink: #222923;
+  --muted: #535c54;
+  --soft: #62695e;
+  --bg: #faf8f3;
+  --surface: #f3f0e8;
+  --surface2: #eeebe2;
+  --surface3: #e9e5db;
+  --stroke: #d8d6ca;
+  --stroke2: #bfbeaf;
+  --lime: #255e46;
+  --max: 1000px;
+}
+body {font-family: system-ui, sans-serif; color: var(--ink); background: var(--bg)}
+h1, h2, h3 {font-family: Georgia, serif; font-weight: 400; letter-spacing: -.035em}
+p {color: var(--muted)}
+a:focus-visible, button:focus-visible, input:focus-visible {outline-color: var(--lime)}
+.nav-wrap {background: #faf8f3f5; border-color: var(--stroke)}
+.nav {height: 65px}
+.mark span:last-child {font: 600 15px system-ui, sans-serif; letter-spacing: -.02em}
+.nav-link, .nav-resume {font: 14px system-ui, sans-serif; color: var(--muted); letter-spacing: 0}
+.nav-link.active {text-decoration: underline; text-underline-offset: .35em}
+.nav-resume, .nav-mobile-toggle {background: transparent; border-color: var(--stroke2); color: var(--ink); border-radius: 4px}
+.home-intro {padding-block: clamp(50px, 8vw, 105px) 54px}
+.profile-role {font-size: 15px; margin-bottom: 14px}
+.home-intro h1 {font-size: clamp(2.8rem, 8vw, 6.4rem); line-height: .98; margin-bottom: 25px}
+.home-summary {font-size: clamp(1rem, 2vw, 1.25rem); max-width: 52ch; margin-bottom: 20px}
+.home-links {display: flex; gap: 18px; flex-wrap: wrap}
+.home-links a, .work-heading a, .case-next a, .link-arrow, .breadcrumb a {color: var(--lime); text-decoration: underline; text-underline-offset: .25em}
+.home-work {padding-bottom: 75px}
+.work-heading {display: flex; justify-content: space-between; align-items: baseline; gap: 12px}
+.work-heading h2 {font-size: clamp(1.9rem, 5vw, 2.8rem); margin-bottom: 15px}
+.case-grid, .case-list {display: block; border-top: 1px solid var(--stroke)}
+.case-card, .case-card.feature {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto 18px; align-items: center;
+  gap: 16px; min-height: 0; padding: 18px 4px; border: 0; border-bottom: 1px solid var(--stroke);
+  border-radius: 0; box-shadow: none; background: transparent;
+}
+.case-card::before, .case-card::after {content: none}
+.case-card:hover {background: var(--surface); transform: none; border-color: var(--stroke)}
+.case-card h3 {font-size: clamp(1.3rem, 3vw, 1.75rem); margin: 0 0 3px; color: var(--ink)}
+.case-card p {margin: 0; color: var(--muted)}
+.case-category {font-size: 13px; color: var(--muted)}
+.case-arrow {color: var(--lime)}
+.page-hero, .section-dark {background: none}
+.page-hero h1 {font-size: clamp(2.7rem, 7vw, 5rem)}
+.page-hero p, .intro {color: var(--muted)}
+.detail-card, .decision, .approach-card, .archive-card {background: transparent; box-shadow: none; border-radius: 0; border-color: var(--stroke)}
+.detail-card h2 {font-size: 1.8rem}
+.detail-card p, .decision p, .tradeoff p, .archive-card p, .approach-card p {color: var(--muted)}
+.case-summary {margin-bottom: 16px}
+.case-lesson {margin-top: 18px}
+.case-next {background: none; border-radius: 0}
+.search, .filter {background: transparent; color: var(--ink); border-color: var(--stroke2); border-radius: 4px}
+.search::placeholder {color: var(--soft)}
+.filter.active, .filter:hover {color: white; background: var(--lime); border-color: var(--lime)}
+.results-count {color: var(--muted); font: 14px system-ui, sans-serif}
+.foot {background: transparent; border-color: var(--stroke)}
+.foot p, .foot-links a {color: var(--muted)}
+.diagram-wrap {
+  color: #e8eef6; background: #101b2a;
+  --ink: #e8eef6; --muted: #b3c2d1; --soft: #a0b0bf;
+  --surface: #101b2a; --surface2: #132236; --surface3: #17273c;
+  --stroke: #34465a; --stroke2: #45586e; --lime: #d3f56c;
+}
+.diagram-wrap p {color: #b3c2d1}
+@media (max-width: 700px) {
+  .nav-right {background: var(--bg)}
+  .nav-link.active {color: var(--lime)}
+  .home-intro h1 {overflow-wrap: anywhere}
+  .case-card, .case-card.feature {grid-template-columns: minmax(0, 1fr) 18px}
+  .case-category {display: none}
+  .work-heading a {font-size: 13px}
+}
