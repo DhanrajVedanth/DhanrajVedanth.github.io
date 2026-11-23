@@ -114,11 +114,22 @@ const examples = {
   },
 };
 
+const walkthroughTypes = {
+  'agent-platform': ['storage', 'control', 'service', 'tool', 'cloud'],
+  troubleshooting: ['cloud', 'agent', 'control', 'tool', 'agent'],
+  billing: ['cloud', 'queue', 'service', 'database', 'service'],
+  'release-testing': ['storage', 'agent', 'control', 'cloud', 'service'],
+  'incident-response': ['user', 'database', 'queue', 'index', 'agent'],
+  finops: ['user', 'agent', 'tool', 'service', 'control'],
+  'operational-access': ['user', 'cloud', 'control', 'tool', 'telemetry'],
+  lifecycle: ['database', 'service', 'cloud', 'control', 'database'],
+};
+
 export function technicalDiagram(caseId) {
   const example = examples[caseId];
   const nodes = example.path.map(([label, detail], i) => ({
     id: `stage-${i}`, label, detail, x: 48 + i * 248, y: 160,
-    kind: ['app', 'service', 'control', 'data', 'service'][i],
+    kind: walkthroughTypes[caseId][i],
     sub: `Step ${i + 1}`,
   }));
   const [label, detail] = example.fault;

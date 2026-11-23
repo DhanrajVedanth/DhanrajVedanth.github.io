@@ -1,3 +1,4 @@
+import { componentDiagram } from './topology.js';
 import { technicalDiagram } from './technical.js';
 import { PROFILE, CASES, CATEGORIES, ARCHIVE, TIMELINE } from './data.js';
 import { DIAGRAMS } from './diagrams.js';
@@ -78,7 +79,20 @@ function wireExplore(){const search=root.querySelector('#case-search');search?.a
 function updateExplore(){const items=CASES.filter(c=>(filter==='All systems'||c.category===filter)&&(`${c.name} ${c.subtitle} ${c.category}`.toLowerCase().includes(query.toLowerCase())));const results=root.querySelector('#results-grid');if(results) results.innerHTML=items.map(c=>caseCard(c)).join('')||'<div class="empty">No matching systems. Try a different term.</div>';const count=root.querySelector('.results-count');if(count)count.textContent=`${items.length} case stud${items.length===1?'y':'ies'}`;root.querySelectorAll('[data-filter]').forEach(b=>{const active=b.dataset.filter===filter;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))})}
 
 const palettes={user:['#25374b','#6f9ac4'],app:['#193345','#73b9d2'],agent:['#263b39','#93d0b1'],service:['#1d3047','#6d9fc9'],platform:['#1e3b3c','#90ccb6'],control:['#333925','#d3f56c'],data:['#2b2f4b','#b3a4f4'],infra:['#352e32','#e7b88f'],artifact:['#31374c','#a8b5d6']};
-const glyphs={user:'H',app:'A',agent:'AI',service:'S',platform:'P',control:'✓',data:'D',infra:'C',artifact:'◆'};
+const symbols = {
+ cloud:'<path d="M5 19h14a4 4 0 0 0 0-8 7 7 0 0 0-13-2 5 5 0 0 0-1 10Z"/>',
+ database:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/>',
+ storage:'<path d="M4 6h16v15H4zM2 3h20v4H2zM9 11h6"/>',
+ queue:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M8 5v14m8-14v14"/>',
+ agent:'<rect x="4" y="5" width="16" height="14" rx="4"/><path d="M12 2v3M8 11h1m6 0h1m-7 4h6"/>',
+ control:'<path d="M12 2l8 3v6c0 6-5 9-8 11-3-2-8-5-8-11V5zM8 12l3 3 5-6"/>',
+ index:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',
+ tool:'<path d="m8 6-5 6 5 6m8-12 5 6-5 6m-3-14-2 16"/>',
+ telemetry:'<path d="M2 12h5l3-7 4 14 3-7h5"/>',
+ user:'<circle cx="12" cy="7" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/>',
+ service:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18m-12 6h6"/>',
+};
+const kindAlias = {infra:'cloud', data:'database', artifact:'storage', app:'service', platform:'cloud'};
 const dimX=1280,dimY=640;
 function wNode(n){return n.x>990?176:205}
 function anchor(n,axis){const w=wNode(n),h=80;return axis==='center'?{x:n.x+w/2,y:n.y+h/2}:{x:n.x,y:n.y,w,h}}
@@ -88,21 +102,21 @@ function pathEdge(a,b){const A=anchor(a,'center'),B=anchor(b,'center'),aw=wNode(
 function labelLines(s){if(s.length<=22)return [s];const words=s.split(' '),lines=[''];for(const word of words){let i=lines.length-1;if((lines[i]+' '+word).trim().length>22&&lines.length<2)lines.push(word);else lines[i]=(lines[i]+' '+word).trim()}return lines.slice(0,2)}
 function svgFor(diag){const focus=diag.steps[view.step]?.focus;
  const graph= `<defs><pattern id="dots" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#547489" opacity=".23"/></pattern><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7" fill="none" stroke="#7293a1" stroke-width="1.3"/></marker></defs><rect width="1280" height="640" fill="url(#dots)"/>`;
- const edges=diag.edges.map(edge=>{const a=diag.nodes.find(n=>n.id===edge.from),b=diag.nodes.find(n=>n.id===edge.to);if(!a||!b)return '';const active=edge.from===focus||edge.to===focus;const label = edge.label ? `<text class="edge-label" x="${a.y === b.y ? (a.x + wNode(a) + b.x) / 2 : a.x + wNode(a) / 2 + 12}" y="${a.y === b.y ? a.y - 14 : (a.y + b.y + 80) / 2}" text-anchor="${a.y === b.y ? 'middle' : 'start'}">${esc(edge.label)}</text>` : '';
+ const edges=diag.edges.map(edge=>{const a=diag.nodes.find(n=>n.id===edge.from),b=diag.nodes.find(n=>n.id===edge.to);if(!a||!b)return '';const active=edge.from===focus||edge.to===focus;const label = edge.label && !diag.topology ? `<text class="edge-label" x="${a.y === b.y ? (a.x + wNode(a) + b.x) / 2 : a.x + wNode(a) / 2 + 12}" y="${a.y === b.y ? a.y - 14 : (a.y + b.y + 80) / 2}" text-anchor="${a.y === b.y ? 'middle' : 'start'}">${esc(edge.label)}</text>` : '';
  return `<path class="edge ${active?'active':''}" d="${pathEdge(a,b)}" marker-end="url(#arrow)">${edge.label ? `<title>${esc(edge.label)}</title>` : ''}</path>${label}`}).join('');
- const nodes=diag.nodes.map(n=>{const [bg,stroke]=palettes[n.kind]||palettes.service;const width=wNode(n);const lines=labelLines(n.label);const title=lines.map((line,i)=>`<tspan x="${n.x+16}" dy="${i?17:0}">${esc(line)}</tspan>`).join('');const yTitle=n.y+(lines.length===1?38:29);const subY=n.y+(lines.length===1?60:68);
- return `<g class="node ${view.nodeId===n.id?'selected':''} ${focus===n.id?'focus':''}" role="button" tabindex="0" aria-label="Inspect ${attr(n.label)}" data-node="${attr(n.id)}"><title>${esc(n.detail)}</title><rect x="${n.x}" y="${n.y}" rx="12" width="${width}" height="80" fill="${bg}" stroke="${stroke}"/><rect x="${n.x+10}" y="${n.y+11}" width="26" height="17" rx="4" fill="#0b1724" opacity=".6"/><text class="node-glyph" x="${n.x+23}" y="${n.y+23}" text-anchor="middle">${esc(glyphs[n.kind]||'◆')}</text><text class="title" x="${n.x+16}" y="${yTitle}">${title}</text><text class="sub" x="${n.x+16}" y="${subY}">${esc(n.sub||n.kind)}</text></g>`}).join('');
+ const nodes=diag.nodes.map(n=>{const [bg,stroke]=palettes[n.kind]||palettes[kindAlias[n.kind]]||palettes.service;const symbol=symbols[n.kind]||symbols[kindAlias[n.kind]]||symbols.service;const width=wNode(n);const lines=labelLines(n.label);const title=lines.map((line,i)=>`<tspan x="${n.x+16}" dy="${i?17:0}">${esc(line)}</tspan>`).join('');const yTitle=n.y+(lines.length===1?38:29);const subY=n.y+(lines.length===1?60:68);
+ return `<g class="node ${view.nodeId===n.id?'selected':''} ${focus===n.id?'focus':''}" role="button" tabindex="0" aria-label="Inspect ${attr(n.label)}" data-node="${attr(n.id)}"><title>${esc(n.detail)}</title><rect x="${n.x}" y="${n.y}" rx="12" width="${width}" height="80" fill="${bg}" stroke="${stroke}"/><g transform="translate(${n.x+width-29} ${n.y+7}) scale(.8)" fill="none" stroke="${stroke}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${symbol}</g><text class="title" x="${n.x+16}" y="${yTitle}">${title}</text><text class="sub" x="${n.x+16}" y="${subY}">${esc(n.sub||n.kind)}</text></g>`}).join('');
  const transform=`translate(${view.panX} ${view.panY}) scale(${view.zoom})`;
  return `<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${attr(diag.title)} interactive diagram" viewBox="0 0 ${dimX} ${dimY}" preserveAspectRatio="xMidYMid meet"><g class="pan-layer" transform="${transform}">${graph}${edges}${nodes}</g></svg>`}
-function renderDiagram(c){const container=root.querySelector('#diagram-root');if(!container)return;const diagrams=[technicalDiagram(c.id), ...DIAGRAMS[c.id]];const d=diagrams[view.diagramIndex]||diagrams[0];const node=d.nodes.find(n=>n.id===view.nodeId)||d.nodes[0];const current=d.steps[view.step]||d.steps[0];
- const technicalDetails = d.tradeoff ? `<section class="technical-details">
+function renderDiagram(c){const container=root.querySelector('#diagram-root');if(!container)return;const diagrams=[componentDiagram(c.id), technicalDiagram(c.id), ...DIAGRAMS[c.id]];const d=diagrams[view.diagramIndex]||diagrams[0];const node=d.nodes.find(n=>n.id===view.nodeId)||d.nodes[0];const current=d.steps[view.step]||d.steps[0];
+ const technicalDetails = d.tradeoff || d.topology ? `<section class="technical-details">
  <h4>What crosses each boundary</h4>
  <ol>${d.edges.map(edge => {
    const from = d.nodes.find(node => node.id === edge.from);
    const to = d.nodes.find(node => node.id === edge.to);
    return `<li><strong>${esc(from.label)} → ${esc(to.label)}</strong> · ${esc(edge.label)}</li>`;
  }).join('')}</ol>
- <h4>Tradeoff</h4><p>${esc(d.tradeoff)}</p>
+ ${d.tradeoff ? `<h4>Tradeoff</h4><p>${esc(d.tradeoff)}</p>` : ''}
  </section>` : '';
  container.innerHTML=`<div class="diagram-nav"><div class="diagram-tabs">${diagrams.map((g,i)=>`<button class="tab ${i===view.diagramIndex?'active':''}" type="button" data-diagram="${i}" aria-pressed="${i===view.diagramIndex}">${esc(g.title.replace(' / HLD','').replace(' / deployment',''))}</button>`).join('')}</div><div class="diagram-controls"><button class="icon-btn" type="button" data-zoom="out" title="Zoom out" aria-label="Zoom out">−</button><button class="icon-btn" type="button" data-zoom="in" title="Zoom in" aria-label="Zoom in">+</button><button class="icon-btn" type="button" data-zoom="reset" title="Reset view" aria-label="Reset view">↺</button></div></div><div class="diagram-info"><div><h3>${esc(d.title)}</h3><p>${esc(d.description)}</p></div>${d.proposed?'<span class="learning-label">PROPOSED / NOT SHIPPED</span>':''}</div><div class="diagram-board" id="diagram-board">${svgFor(d)}</div><div class="diagram-footer"><div class="node-inspector" aria-live="polite"><span class="micro">SELECTED COMPONENT / ${esc(node.kind.toUpperCase())}</span><h4>${esc(node.label)}</h4><p>${esc(node.detail)}</p></div><div class="walk-panel" aria-live="polite"><div class="walk-header"><span class="micro">GUIDED TRACE / ${view.step+1} OF ${d.steps.length}</span><strong>${esc(current.name)}</strong></div><p>${esc(current.text)}</p><div class="walk-actions"><button type="button" data-step="prev" aria-label="Previous step">← PREV</button><button type="button" data-step="next" aria-label="Next step">NEXT →</button><button type="button" data-step="play">${autoplay?'PAUSE ■':'PLAY ▷'}</button></div></div></div><div class="diagram-hint"><span>INTERACT:</span> click components to inspect · drag canvas to pan · scroll to zoom · switch architecture views · guided trace is illustrative</div>${technicalDetails}`;
  container.querySelectorAll('[data-diagram]').forEach(b=>b.addEventListener('click',()=>{stopAutoplay();view={diagramIndex:Number(b.dataset.diagram),nodeId:null,step:0,zoom:1,panX:0,panY:0};renderDiagram(c)}));
